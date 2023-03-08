@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import cds from "@sap/cds";
-import { LinkedModel } from "cds-internal-tool";
+import { cwdRequireCDS, LinkedModel } from "cds-internal-tool";
 import path from "path";
 import { cwd } from "process";
 import yargs from "yargs";
@@ -35,10 +34,12 @@ yargs(hideBin(process.argv))
           alias: "t",
           describe: "output file type",
           type: "string",
-          default: "png"
+          default: "png",
+
         });
     },
     async function create_entity_relation_diagram(argv) {
+      const cds = cwdRequireCDS();
       const logger = getLogger();
       const binary_file = await download_plantuml();
       const root = path.join(process.cwd(), argv.project);
