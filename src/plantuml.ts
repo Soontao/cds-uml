@@ -63,9 +63,10 @@ export async function renderPlantUMLToFile(
   const tmpOutputFile = path.join(tmpdir(), `cds_uml_tmp_${ts}.${type}`);
   await writeFile(tmpFile, diagramContent, { encoding: "utf-8" });
   // ref https://plantuml.com/zh/command-line
-  await spawn(`java -jar ${binaryPath} ${tmpFile} -t${type}`);
+  await spawn(`java -jar -DPLANTUML_LIMIT_SIZE=204800 ${binaryPath} -charset UTF-8 ${tmpFile} -t${type}`);
   logger.debug("output temp generated file", tmpOutputFile);
   await cp(tmpOutputFile, outputPath);
+  // TODO: clean temp files
 }
 
 /**
@@ -75,7 +76,11 @@ export async function renderPlantUMLToFile(
  * @returns 
  */
 export function cdsModelToPlantUMLDiagram(model: LinkedModel, namespace?: string): PlantUMLDiagram {
-  return Object.values(model.entities(namespace)).map(cdsEntityToPlantUMLEntity);
+  return Object
+    .values(model.entities(namespace))
+    .filter(e => (e.query === undefined && e.projection === undefined)) // not a view
+    .filter(e => (e["@cds.skip.persistence"] === undefined && e["@cds.persistence.exists"] === undefined)) // skip native/virtual artifacts
+    .map(cdsEntityToPlantUMLEntity);
 }
 
 /**
@@ -92,10 +97,12 @@ export function cdsEntityToPlantUMLEntity(entity: LinkedEntityDefinition): Plant
     mandatoryAttributes: Object
       .entries(entity?.elements ?? {})
       .filter(([, def]) => def.notNull === true)
+      .filter(([, def]) => def.type !== "cds.Association")
       .map(([name, def]) => ({ name, type: def.type })),
     attributes: Object
       .entries(entity?.elements ?? {})
       .filter(([, def]) => def.notNull !== true)
+      .filter(([, def]) => def.type !== "cds.Association")
       .map(([name, def]) => ({ name, type: def.type })),
     relations: Object
       .entries(entity.associations ?? {})
