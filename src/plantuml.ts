@@ -6,12 +6,16 @@ import { getLogger } from "./logger";
 import { spawn } from "./utils";
 
 interface PlantUMLAttribute { name: string, type?: string }
+interface PlantUMLRelation {
+  target: string,
+  type?: "toOne" | "toMany"
+}
 interface PlantUMLEntity {
   name: string;
   identifiers: Array<PlantUMLAttribute>;
   mandatoryAttributes: Array<PlantUMLAttribute>;
   attributes: Array<PlantUMLAttribute>;
-  // TODO: relations
+  relations: Array<PlantUMLRelation>;
 }
 type PlantUMLDiagram = Array<PlantUMLEntity>
 
@@ -22,7 +26,7 @@ export function renderPlantUMLEntity(e: PlantUMLEntity): string {
     "  --",
     ...e.mandatoryAttributes.map(i => `  *${i.name}: ${i.type}`),
     ...e.attributes.map(i => `  ${i.name}: ${i.type}`),
-    `}`
+    `}`,
   ].join("\n");
 }
 
@@ -30,6 +34,10 @@ export function renderPlantUMLDiagram(diagram: PlantUMLDiagram) {
   return [
     "@startuml",
     ...diagram.map(renderPlantUMLEntity),
+    ...diagram // relations must at the end
+      .map(e => e.relations.map(r => ({ ...r, entity: e.name })))
+      .flat()
+      .map(r => `${r.entity} ${r.type === "toOne" ? " --|| " : "--o{"} ${r.target}`),
     "@enduml",
   ].join("\n");
 }
@@ -79,7 +87,7 @@ export function cdsModelToPlantUMLDiagram(model: LinkedModel, namespace?: string
 export function cdsEntityToPlantUMLEntity(entity: LinkedEntityDefinition): PlantUMLEntity {
   const plantUMLEntity: PlantUMLEntity = {
     // fix namespace of generated composition
-    name: entity.name.endsWith(".texts") ? entity.name.substring(0, entity.name.length - 6) + "_texts" : entity.name,
+    name: _formatName(entity.name),
     identifiers: Object.entries(entity?.keys ?? {}).map(([name, def]) => ({ name, type: def.type })),
     mandatoryAttributes: Object
       .entries(entity?.elements ?? {})
@@ -89,6 +97,17 @@ export function cdsEntityToPlantUMLEntity(entity: LinkedEntityDefinition): Plant
       .entries(entity?.elements ?? {})
       .filter(([, def]) => def.notNull !== true)
       .map(([name, def]) => ({ name, type: def.type })),
+    relations: Object
+      .entries(entity.associations ?? {})
+      .map(([_, def]) => ({
+        target: _formatName(def.target),
+        type: def.cardinality?.max === "1" ? "toOne" : "toMany",
+      })),
   };
   return plantUMLEntity;
 }
+
+function _formatName(name = ""): string {
+  return name.endsWith(".texts") ? name.substring(0, name.length - 6) + "_texts" : name;
+}
+

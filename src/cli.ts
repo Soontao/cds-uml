@@ -47,8 +47,10 @@ yargs(hideBin(process.argv))
       let model: LinkedModel;
 
       try {
+        logger.debug("loading model...");
         // @ts-ignore
         model = cds.reflect(cds.compile.for.nodejs(await cds.load("*", { root })));
+        logger.debug("model loaded from", root);
       } catch (error) {
         logger.error("load model failed");
         logger.error(error.message);
