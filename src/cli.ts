@@ -22,12 +22,12 @@ yargs(hideBin(process.argv))
         })
         .option("output", {
           alias: "o",
-          describe: "output path",
+          describe: "output filename",
           type: "string",
         })
         .option("namespace", {
           alias: "n",
-          describe: "namespace",
+          describe: "cds namespace",
           type: "string",
         })
         .option("type", {
