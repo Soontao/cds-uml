@@ -64,14 +64,9 @@
       "error",
       "always"
     ],
-    "camelcase": [
-      "error",
-      {
-        "ignoreImports": true,
-        "ignoreGlobals": true
-      }
-    ],
+    "camelcase": "off",
     "space-infix-ops": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/space-infix-ops": "error",
     "comma-spacing": "error",
     "arrow-spacing": "error",

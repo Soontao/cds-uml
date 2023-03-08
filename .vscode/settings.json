@@ -7,5 +7,10 @@
     "source.organizeImports": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["autocrlf", "npmjs", "paren"]
+  "cSpell.words": [
+    "autocrlf",
+    "npmjs",
+    "paren",
+    "plantuml"
+  ]
 }
