@@ -9,8 +9,10 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "cSpell.words": [
     "autocrlf",
+    "enduml",
     "npmjs",
     "paren",
-    "plantuml"
+    "plantuml",
+    "startuml"
   ]
 }

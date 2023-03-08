@@ -114,3 +114,5 @@ lib
 
 # test
 junit.xml
+*.png
+*.svg

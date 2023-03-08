@@ -2,6 +2,7 @@ import { LinkedEntityDefinition, LinkedModel } from "cds-internal-tool";
 import { cp, writeFile } from "fs/promises";
 import { tmpdir } from "os";
 import path from "path";
+import { getLogger } from "./logger";
 import { spawn } from "./utils";
 
 interface PlantUMLAttribute { name: string, type?: string }
@@ -44,15 +45,18 @@ export async function renderPlantUMLToFile(
   binaryPath: string,
   diagram: PlantUMLDiagram,
   outputPath: string,
-  type = "png"
+  type = "png",
+  logger = getLogger()
 ) {
-  const diagramContext = renderPlantUMLDiagram(diagram);
+  const diagramContent = renderPlantUMLDiagram(diagram);
   const ts = Date.now();
   const tmpFile = path.join(tmpdir(), `cds_uml_tmp_${ts}.txt`);
-  const tmpOutputFile = path.join(tmpdir(), `cds_uml_tmp_${ts}.png`);
-  await writeFile(tmpFile, diagramContext, { encoding: "utf-8" });
+  logger.debug("output temp plantuml file", tmpFile);
+  const tmpOutputFile = path.join(tmpdir(), `cds_uml_tmp_${ts}.${type}`);
+  await writeFile(tmpFile, diagramContent, { encoding: "utf-8" });
   // ref https://plantuml.com/zh/command-line
   await spawn(`java -jar ${binaryPath} ${tmpFile} -t${type}`);
+  logger.debug("output temp generated file", tmpOutputFile);
   await cp(tmpOutputFile, outputPath);
 }
 

@@ -30,7 +30,13 @@ yargs(hideBin(process.argv))
           alias: "n",
           describe: "namespace",
           type: "string",
-        });;
+        })
+        .option("type", {
+          alias: "t",
+          describe: "output file type",
+          type: "string",
+          default: "png"
+        });
     },
     async function create_entity_relation_diagram(argv) {
       const logger = getLogger();
@@ -48,8 +54,14 @@ yargs(hideBin(process.argv))
         return;
       }
 
-      const d = cdsModelToPlantUMLDiagram(model, argv.namespace);
-      await renderPlantUMLToFile(binary_file, d, path.join(cwd(), argv.output ?? path.basename(root)));
+      const diagram = cdsModelToPlantUMLDiagram(model, argv.namespace);
+
+      await renderPlantUMLToFile(
+        binary_file,
+        diagram,
+        path.join(cwd(), (argv.output ?? path.basename(root)) + `.${argv.type}`),
+        argv.type
+      );
     })
   .demandCommand(1)
   .parse();
