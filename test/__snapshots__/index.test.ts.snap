@@ -1,0 +1,304 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Index Test Suite should support generate something firstly 1`] = `
+[
+  {
+    "attributes": [
+      {
+        "name": "ID",
+        "type": "cds.UUID",
+      },
+      {
+        "name": "Age",
+        "type": "cds.Integer",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "ID",
+        "type": "cds.UUID",
+      },
+    ],
+    "mandatoryAttributes": [
+      {
+        "name": "Name",
+        "type": "cds.String",
+      },
+    ],
+    "name": "custom.a.A",
+    "relations": [],
+  },
+  {
+    "attributes": [
+      {
+        "name": "ID",
+        "type": "cds.UUID",
+      },
+      {
+        "name": "Amount",
+        "type": "cds.Decimal",
+      },
+      {
+        "name": "Total",
+        "type": "cds.Decimal",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "ID",
+        "type": "cds.UUID",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "custom.b.B",
+    "relations": [],
+  },
+  {
+    "attributes": [
+      {
+        "name": "ID",
+        "type": "cds.UUID",
+      },
+      {
+        "name": "Name",
+        "type": "cds.String",
+      },
+      {
+        "name": "b_ID",
+        "type": "cds.UUID",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "ID",
+        "type": "cds.UUID",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "custom.b.c.C",
+    "relations": [
+      {
+        "target": "custom.b.B",
+        "type": "toMany",
+      },
+    ],
+  },
+  {
+    "attributes": [
+      {
+        "name": "name",
+        "type": "cds.String",
+      },
+      {
+        "name": "descr",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+      {
+        "name": "texts",
+        "type": "cds.Composition",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "sap.common.Languages",
+    "relations": [
+      {
+        "target": "sap.common.Languages_texts",
+        "type": "toMany",
+      },
+      {
+        "target": "sap.common.Languages_texts",
+        "type": "toMany",
+      },
+    ],
+  },
+  {
+    "attributes": [
+      {
+        "name": "name",
+        "type": "cds.String",
+      },
+      {
+        "name": "descr",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+      {
+        "name": "texts",
+        "type": "cds.Composition",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "sap.common.Countries",
+    "relations": [
+      {
+        "target": "sap.common.Countries_texts",
+        "type": "toMany",
+      },
+      {
+        "target": "sap.common.Countries_texts",
+        "type": "toMany",
+      },
+    ],
+  },
+  {
+    "attributes": [
+      {
+        "name": "name",
+        "type": "cds.String",
+      },
+      {
+        "name": "descr",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+      {
+        "name": "symbol",
+        "type": "cds.String",
+      },
+      {
+        "name": "texts",
+        "type": "cds.Composition",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "sap.common.Currencies",
+    "relations": [
+      {
+        "target": "sap.common.Currencies_texts",
+        "type": "toMany",
+      },
+      {
+        "target": "sap.common.Currencies_texts",
+        "type": "toMany",
+      },
+    ],
+  },
+  {
+    "attributes": [
+      {
+        "name": "locale",
+        "type": "cds.String",
+      },
+      {
+        "name": "name",
+        "type": "cds.String",
+      },
+      {
+        "name": "descr",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "locale",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "sap.common.Languages_texts",
+    "relations": [],
+  },
+  {
+    "attributes": [
+      {
+        "name": "locale",
+        "type": "cds.String",
+      },
+      {
+        "name": "name",
+        "type": "cds.String",
+      },
+      {
+        "name": "descr",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "locale",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "sap.common.Countries_texts",
+    "relations": [],
+  },
+  {
+    "attributes": [
+      {
+        "name": "locale",
+        "type": "cds.String",
+      },
+      {
+        "name": "name",
+        "type": "cds.String",
+      },
+      {
+        "name": "descr",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "identifiers": [
+      {
+        "name": "locale",
+        "type": "cds.String",
+      },
+      {
+        "name": "code",
+        "type": "cds.String",
+      },
+    ],
+    "mandatoryAttributes": [],
+    "name": "sap.common.Currencies_texts",
+    "relations": [],
+  },
+]
+`;
